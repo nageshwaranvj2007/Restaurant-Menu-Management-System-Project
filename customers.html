@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customer Management</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f4f4f4;
+}
+
+.header{
+    background:#fa0822;
+    color:white;
+    text-align:center;
+    padding:20px;
+    font-size:30px;
+    font-weight:bold;
+}
+
+.container{
+    width:90%;
+    margin:30px auto;
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+h2{
+    text-align:center;
+    color:#fa0822;
+}
+
+form{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+input,select{
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    font-size:16px;
+}
+
+button{
+    grid-column:span 2;
+    padding:12px;
+    background:#fa0822;
+    color:white;
+    border:none;
+    border-radius:5px;
+    font-size:18px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#fa0822;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:30px;
+}
+
+table th{
+    background:#fa0822;
+    color:white;
+    padding:12px;
+}
+
+table td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+}
+
+table tr:nth-child(even){
+    background:#f9f9f9;
+}
+
+table tr:hover{
+    background:#ffe0d1;
+}
+
+.back-btn{
+    margin-bottom:20px;
+}
+
+.back-btn a{
+    text-decoration:none;
+    background:#fa0822;
+    color:white;
+    padding:10px 20px;
+    border-radius:5px;
+}
+
+.back-btn a:hover{
+    background:#fa0822;;
+}
+
+.footer{
+    text-align:center;
+    margin:20px;
+    color:#666;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+Customer Management
+</div>
+
+<div class="container">
+
+<div class="back-btn">
+<a href="dashboard.html">⬅ Back to Dashboard</a>
+</div>
+
+<h2>Add Customer</h2>
+
+<form id="addCustomerForm" onsubmit="saveCustomer(event)">
+
+<input type="text" id="cust_id" placeholder="Customer ID (Optional, auto-generated)">
+
+<input type="text" id="cust_name" placeholder="Customer Name" required>
+
+<input type="text" id="cust_mobile" placeholder="Mobile Number" required>
+
+<input type="email" id="cust_email" placeholder="Email Address" required>
+
+<input type="text" id="cust_city" placeholder="City" required>
+
+<select id="cust_gender" required>
+<option value="">Select Gender</option>
+<option value="Male">Male</option>
+<option value="Female">Female</option>
+<option value="Other">Other</option>
+</select>
+
+<button type="submit">Save Customer</button>
+
+</form>
+
+<h2>Customer Details</h2>
+
+<table id="customersTable">
+
+<tr>
+<th>Customer ID</th>
+<th>Name</th>
+<th>Mobile</th>
+<th>Email</th>
+<th>City</th>
+<th>Gender</th>
+</tr>
+
+<tr><td>C001</td><td>Arun Kumar</td><td>9876543210</td><td>arun@gmail.com</td><td>Chennai</td><td>Male</td></tr>
+<tr><td>C002</td><td>Priya</td><td>9876501234</td><td>priya@gmail.com</td><td>Coimbatore</td><td>Female</td></tr>
+<tr><td>C003</td><td>Rahul</td><td>9123456789</td><td>rahul@gmail.com</td><td>Madurai</td><td>Male</td></tr>
+<tr><td>C004</td><td>Divya</td><td>9988776655</td><td>divya@gmail.com</td><td>Salem</td><td>Female</td></tr>
+<tr><td>C005</td><td>Karthik</td><td>9012345678</td><td>karthik@gmail.com</td><td>Erode</td><td>Male</td></tr>
+<tr><td>C006</td><td>Anitha</td><td>9345678901</td><td>anitha@gmail.com</td><td>Trichy</td><td>Female</td></tr>
+<tr><td>C007</td><td>Vijay</td><td>9789012345</td><td>vijay@gmail.com</td><td>Tirunelveli</td><td>Male</td></tr>
+<tr><td>C008</td><td>Meena</td><td>9871234560</td><td>meena@gmail.com</td><td>Vellore</td><td>Female</td></tr>
+<tr><td>C009</td><td>Suresh</td><td>9367890123</td><td>suresh@gmail.com</td><td>Thanjavur</td><td>Male</td></tr>
+<tr><td>C010</td><td>Kavya</td><td>9845678901</td><td>kavya@gmail.com</td><td>Namakkal</td><td>Female</td></tr>
+
+<tr><td>C011</td><td>Ramesh</td><td>9874561230</td><td>ramesh@gmail.com</td><td>Karur</td><td>Male</td></tr>
+<tr><td>C012</td><td>Nisha</td><td>9956789012</td><td>nisha@gmail.com</td><td>Dindigul</td><td>Female</td></tr>
+<tr><td>C013</td><td>Prakash</td><td>9445678901</td><td>prakash@gmail.com</td><td>Thoothukudi</td><td>Male</td></tr>
+<tr><td>C014</td><td>Deepa</td><td>9001234567</td><td>deepa@gmail.com</td><td>Cuddalore</td><td>Female</td></tr>
+<tr><td>C015</td><td>Hari</td><td>9798765432</td><td>hari@gmail.com</td><td>Sivakasi</td><td>Male</td></tr>
+<tr><td>C016</td><td>Keerthana</td><td>9887654321</td><td>keerthana@gmail.com</td><td>Virudhunagar</td><td>Female</td></tr>
+<tr><td>C017</td><td>Manoj</td><td>9340011223</td><td>manoj@gmail.com</td><td>Nagercoil</td><td>Male</td></tr>
+<tr><td>C018</td><td>Swathi</td><td>9877001122</td><td>swathi@gmail.com</td><td>Kanchipuram</td><td>Female</td></tr>
+<tr><td>C019</td><td>Ajith</td><td>9011223344</td><td>ajith@gmail.com</td><td>Tiruppur</td><td>Male</td></tr>
+<tr><td>C020</td><td>Lavanya</td><td>9900112233</td><td>lavanya@gmail.com</td><td>Pollachi</td><td>Female</td></tr>
+
+<tr><td>C021</td><td>Santhosh</td><td>9788112233</td><td>santhosh@gmail.com</td><td>Hosur</td><td>Male</td></tr>
+<tr><td>C022</td><td>Revathi</td><td>9866223344</td><td>revathi@gmail.com</td><td>Dharmapuri</td><td>Female</td></tr>
+<tr><td>C023</td><td>Lokesh</td><td>9122334455</td><td>lokesh@gmail.com</td><td>Mayiladuthurai</td><td>Male</td></tr>
+<tr><td>C024</td><td>Gayathri</td><td>9877334455</td><td>gayathri@gmail.com</td><td>Nagapattinam</td><td>Female</td></tr>
+<tr><td>C025</td><td>Bharath</td><td>9011445566</td><td>bharath@gmail.com</td><td>Pudukkottai</td><td>Male</td></tr>
+<tr><td>C026</td><td>Shalini</td><td>9888556677</td><td>shalini@gmail.com</td><td>Ramanathapuram</td><td>Female</td></tr>
+<tr><td>C027</td><td>Vinoth</td><td>9344556677</td><td>vinoth@gmail.com</td><td>Krishnagiri</td><td>Male</td></tr>
+<tr><td>C028</td><td>Monika</td><td>9777665544</td><td>monika@gmail.com</td><td>Tenkasi</td><td>Female</td></tr>
+<tr><td>C029</td><td>Sathish</td><td>9009988776</td><td>sathish@gmail.com</td><td>Villupuram</td><td>Male</td></tr>
+<tr><td>C030</td><td>Preethi</td><td>9899887766</td><td>preethi@gmail.com</td><td>Kumbakonam</td><td>Female</td></tr>
+
+</table>
+
+</div>
+
+<div class="footer">
+© 2026 Restaurant Menu Management System
+</div>
+
+<script>
+function loadCustomers() {
+    fetch("php/get_customers.php")
+        .then(res => res.json())
+        .then(data => {
+            if (data.success && data.customers && data.customers.length > 0) {
+                const table = document.getElementById("customersTable");
+                let html = `
+                    <tr>
+                        <th>Customer ID</th>
+                        <th>Name</th>
+                        <th>Mobile</th>
+                        <th>Email</th>
+                        <th>City</th>
+                        <th>Gender</th>
+                    </tr>
+                `;
+                data.customers.forEach(c => {
+                    html += `<tr>
+                        <td>${escapeHtml(c.customer_id)}</td>
+                        <td>${escapeHtml(c.name)}</td>
+                        <td>${escapeHtml(c.mobile)}</td>
+                        <td>${escapeHtml(c.email)}</td>
+                        <td>${escapeHtml(c.city)}</td>
+                        <td>${escapeHtml(c.gender)}</td>
+                    </tr>`;
+                });
+                table.innerHTML = html;
+            }
+        })
+        .catch(err => console.error("Could not load customers:", err));
+}
+
+function saveCustomer(e) {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("customer_id", document.getElementById("cust_id").value.trim());
+    formData.append("name", document.getElementById("cust_name").value.trim());
+    formData.append("mobile", document.getElementById("cust_mobile").value.trim());
+    formData.append("email", document.getElementById("cust_email").value.trim());
+    formData.append("city", document.getElementById("cust_city").value.trim());
+    formData.append("gender", document.getElementById("cust_gender").value);
+
+    fetch("php/add_customer.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message);
+            document.getElementById("addCustomerForm").reset();
+            loadCustomers();
+        } else {
+            alert(data.message || "Failed to save customer.");
+        }
+    })
+    .catch(err => {
+        console.error("Save customer error:", err);
+        alert("An error occurred while saving the customer.");
+    });
+}
+
+function escapeHtml(text) {
+    if (!text) return "";
+    return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+loadCustomers();
+</script>
+</body>
+</html>

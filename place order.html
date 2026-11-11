@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Place Order</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f4f4f4;
+}
+
+.header{
+    background:#fa0822;
+    color:white;
+    text-align:center;
+    padding:20px;
+    font-size:30px;
+    font-weight:bold;
+}
+
+.container{
+    width:90%;
+    max-width:1000px;
+    margin:30px auto;
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+.back-btn{
+    margin-bottom:20px;
+}
+
+.back-btn a{
+    text-decoration:none;
+    background:#fa0822;
+    color:white;
+    padding:10px 20px;
+    border-radius:5px;
+}
+
+.back-btn a:hover{
+    background:#d9001f;
+}
+
+h2{
+    text-align:center;
+    color:#fa0822;
+    margin-bottom:25px;
+}
+
+form{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+input,select,textarea{
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    font-size:16px;
+    width:100%;
+    box-sizing:border-box;
+}
+
+textarea{
+    grid-column:span 2;
+    height:100px;
+    resize:none;
+}
+
+button{
+    grid-column:span 2;
+    padding:12px;
+    background:#fa0822;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    font-size:18px;
+}
+
+button:hover{
+    background:#d9001f;
+}
+
+.message{
+    display:none;
+    margin-top:20px;
+    padding:15px;
+    background:#e8f5e9;
+    color:#2e7d32;
+    text-align:center;
+    border-radius:5px;
+    font-size:18px;
+}
+
+.footer{
+    text-align:center;
+    margin:20px;
+    color:#666;
+}
+
+@media(max-width:700px){
+
+    form{
+        grid-template-columns:1fr;
+    }
+
+    textarea,
+    button{
+        grid-column:span 1;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+🍽️ Place Order
+
+</div>
+
+
+<div class="container">
+
+
+<div class="back-btn">
+
+<a href="customer dashboard.html">
+⬅ Back to Dashboard
+</a>
+
+</div>
+
+
+<h2>Place New Order</h2>
+
+
+<form action="php/order_process.php" method="POST">
+
+    <input
+        type="text"
+        name="customer_name"
+        placeholder="Customer Name"
+        required
+    >
+
+    <select name="item" required>
+        <option value="">Select Food Item</option>
+        <option value="Idli">Idli</option>
+        <option value="Plain Dosa">Plain Dosa</option>
+        <option value="Masala Dosa">Masala Dosa</option>
+        <option value="Pongal">Pongal</option>
+        <option value="Parotta">Parotta</option>
+        <option value="Chicken Biryani">Chicken Biryani</option>
+        <option value="Mutton Biryani">Mutton Biryani</option>
+        <option value="Fish Fry">Fish Fry</option>
+        <option value="Jigarthanda">Jigarthanda</option>
+        <option value="Gulab Jamun">Gulab Jamun</option>
+    </select>
+
+    <input
+        type="number"
+        name="quantity"
+        placeholder="Quantity"
+        min="1"
+        required
+    >
+
+    <input
+        type="date"
+        name="order_date"
+        required
+    >
+
+    <textarea
+        name="delivery_address"
+        placeholder="Delivery Address"
+        required
+    ></textarea>
+
+    <button type="submit">
+        🛒 Place Order
+    </button>
+
+</form>
+
+
+<div class="message" id="message">
+
+✅ Your order has been placed successfully!
+
+</div>
+
+
+</div>
+
+
+<div class="footer">
+
+© 2026 Restaurant Menu Management System
+
+</div>
+
+
+<script>
+// Check if redirected after successful order submission
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('success') === '1') {
+    const msg = document.getElementById("message");
+    if (msg) {
+        msg.style.display = "block";
+    }
+}
+
+// Set default order date to today
+const dateInput = document.querySelector('input[name="order_date"]');
+if (dateInput && !dateInput.value) {
+    dateInput.value = new Date().toISOString().split('T')[0];
+}
+</script>
+
+
+</body>
+
+</html>

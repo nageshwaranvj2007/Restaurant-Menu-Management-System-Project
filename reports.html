@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reports</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f4f4f4;
+}
+
+.header{
+    background:#ff0822;
+    color:white;
+    text-align:center;
+    padding:20px;
+    font-size:30px;
+    font-weight:bold;
+}
+
+.container{
+    width:90%;
+    margin:30px auto;
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+.back-btn{
+    margin-bottom:20px;
+}
+
+.back-btn a{
+    text-decoration:none;
+    background:#ff0822;
+    color:white;
+    padding:10px 20px;
+    border-radius:5px;
+}
+
+.back-btn a:hover{
+    background:#ff0822;
+}
+
+h2{
+    text-align:center;
+    color:#ff0822;
+    margin-bottom:20px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+table th{
+    background: #ff0822;
+    color:white;
+    padding:12px;
+}
+
+table td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+}
+
+table tr:nth-child(even){
+    background:#f9f9f9;
+}
+
+table tr:hover{
+    background:#ffe5d6;
+}
+
+.summary{
+    display:flex;
+    justify-content:space-around;
+    flex-wrap:wrap;
+    margin-bottom:30px;
+}
+
+.card{
+    width:220px;
+    background:#ff0822;
+    color:white;
+    padding:20px;
+    margin:10px;
+    border-radius:10px;
+    text-align:center;
+    box-shadow:0 3px 8px rgba(0,0,0,0.2);
+}
+
+.card h3{
+    font-size:18px;
+}
+
+.card h1{
+    margin-top:10px;
+    font-size:30px;
+}
+
+.footer{
+    text-align:center;
+    padding:20px;
+    color:#555;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+Reports
+</div>
+
+<div class="container">
+
+<div class="back-btn">
+<a href="dashboard.html">⬅ Back to Dashboard</a>
+</div>
+
+<h2>Tamil Nadu Restaurant Report Summary</h2>
+
+<div class="summary">
+
+<div class="card">
+<h3>Total Menu Items</h3>
+<h1 id="repMenu">20</h1>
+</div>
+
+<div class="card">
+<h3>Total Orders</h3>
+<h1 id="repOrders">1</h1>
+</div>
+
+<div class="card">
+<h3>Total Customers</h3>
+<h1 id="repCust">30</h1>
+</div>
+
+<div class="card">
+<h3>Total Revenue</h3>
+<h1 id="repRev">₹440</h1>
+</div>
+
+</div>
+
+<h2>Monthly Sales Report</h2>
+
+<table>
+
+<tr>
+<th>Month</th>
+<th>Orders</th>
+<th>Revenue (₹)</th>
+<th>Status</th>
+</tr>
+
+<tr>
+<td>January</td>
+<td>120</td>
+<td>45,000</td>
+<td>Completed</td>
+</tr>
+
+<tr>
+<td>February</td>
+<td>135</td>
+<td>52,000</td>
+<td>Completed</td>
+</tr>
+
+<tr>
+<td>March</td>
+<td>150</td>
+<td>60,000</td>
+<td>Completed</td>
+</tr>
+
+<tr>
+<td>April</td>
+<td>170</td>
+<td>68,000</td>
+<td>Completed</td>
+</tr>
+
+<tr>
+<td>May</td>
+<td>190</td>
+<td>75,000</td>
+<td>Completed</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="footer">
+© 2026 Restaurant Menu Management System
+</div>
+
+<script>
+fetch("php/get_dashboard_stats.php")
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById("repMenu").textContent = data.total_menu;
+            document.getElementById("repOrders").textContent = data.total_orders;
+            document.getElementById("repCust").textContent = data.total_customers;
+            document.getElementById("repRev").textContent = "₹" + Number(data.total_revenue).toLocaleString();
+        }
+    })
+    .catch(err => console.error("Error loading report stats:", err));
+</script>
+</body>
+</html>

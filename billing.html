@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Billing & Payment</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f4f4f4;
+}
+
+.header{
+    background:#ff0822;
+    color:white;
+    text-align:center;
+    padding:20px;
+    font-size:30px;
+    font-weight:bold;
+}
+
+.container{
+    width:90%;
+    margin:30px auto;
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+h2{
+    text-align:center;
+    color:#ff0822;
+}
+
+form{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+input,select{
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    font-size:16px;
+}
+
+button{
+    grid-column:span 2;
+    padding:12px;
+    background:#ff0822;
+    color:white;
+    border:none;
+    border-radius:5px;
+    font-size:18px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#ff0822;
+}
+
+table{
+    width:100%;
+    margin-top:30px;
+    border-collapse:collapse;
+}
+
+table th{
+    background:#ff0822;
+    color:white;
+    padding:12px;
+}
+
+table td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+}
+
+table tr:nth-child(even){
+    background:#f9f9f9;
+}
+
+table tr:hover{
+    background:#ffe0d1;
+}
+
+.back-btn{
+    margin-bottom:20px;
+}
+
+.back-btn a{
+    text-decoration:none;
+    background:#ff0822;
+    color:white;
+    padding:10px 20px;
+    border-radius:5px;
+}
+
+.back-btn a:hover{
+    background:#ff0822;
+}
+
+.footer{
+    text-align:center;
+    margin:20px;
+    color:#666;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+Billing & Payment
+</div>
+
+<div class="container">
+
+<div class="back-btn">
+<a href="dashboard.html">⬅ Back to Dashboard</a>
+</div>
+
+<h2>Generate Bill</h2>
+
+<form>
+
+<input type="text" placeholder="Bill Number">
+
+<input type="text" placeholder="Customer Name">
+
+<input type="text" placeholder="Food Item">
+
+<input type="number" placeholder="Quantity">
+
+<input type="number" placeholder="Total Amount (₹)">
+
+<select>
+<option>Select Payment Method</option>
+<option>Cash</option>
+<option>UPI</option>
+<option>Credit Card</option>
+<option>Debit Card</option>
+</select>
+
+<button type="submit">Generate Bill</button>
+
+</form>
+
+<h2>Billing Records</h2>
+
+<table>
+
+<tr>
+<th>Bill No</th>
+<th>Customer</th>
+<th>Food Item</th>
+<th>Qty</th>
+<th>Amount (₹)</th>
+<th>Payment</th>
+</tr>
+
+<tr>
+<td>B001</td>
+<td>Arun</td>
+<td>Chicken Biryani</td>
+<td>2</td>
+<td>440</td>
+<td>UPI</td>
+</tr>
+
+<tr>
+<td>B002</td>
+<td>Priya</td>
+<td>Veg Meals</td>
+<td>3</td>
+<td>450</td>
+<td>Cash</td>
+</tr>
+
+<tr>
+<td>B003</td>
+<td>Karthik</td>
+<td>Mutton Biryani</td>
+<td>2</td>
+<td>640</td>
+<td>Card</td>
+</tr>
+
+<tr>
+<td>B004</td>
+<td>Divya</td>
+<td>Fish Fry</td>
+<td>4</td>
+<td>800</td>
+<td>UPI</td>
+</tr>
+
+<tr>
+<td>B005</td>
+<td>Rahul</td>
+<td>Chicken Meals</td>
+<td>4</td>
+<td>1000</td>
+<td>Cash</td>
+</tr>
+
+<tr>
+<td>B006</td>
+<td>Sneha</td>
+<td>Chettinad Chicken</td>
+<td>5</td>
+<td>1400</td>
+<td>Card</td>
+</tr>
+
+<tr>
+<td>B007</td>
+<td>Vijay</td>
+<td>Parotta</td>
+<td>10</td>
+<td>500</td>
+<td>Cash</td>
+</tr>
+
+<tr>
+<td>B008</td>
+<td>Meena</td>
+<td>Masala Dosa</td>
+<td>5</td>
+<td>450</td>
+<td>UPI</td>
+</tr>
+
+<tr>
+<td>B009</td>
+<td>Suresh</td>
+<td>Jigarthanda</td>
+<td>5</td>
+<td>400</td>
+<td>Cash</td>
+</tr>
+
+<tr>
+<td>B010</td>
+<td>Anitha</td>
+<td>Family Order</td>
+<td>1</td>
+<td>1370</td>
+<td>UPI</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="footer">
+© 2026 Restaurant Menu Management System
+</div>
+
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Customer Menu</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f4f4f4;
+}
+
+.header{
+    background:#ff0822;
+    color:white;
+    text-align:center;
+    padding:20px;
+    font-size:32px;
+    font-weight:bold;
+}
+
+.container{
+    width:90%;
+    margin:30px auto;
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+h2{
+    text-align:center;
+    color:#ff0822;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+table th{
+    background:#ff0822;
+    color:white;
+    padding:12px;
+}
+
+table td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+}
+
+table tr:nth-child(even){
+    background:#f8f8f8;
+}
+
+table tr:hover{
+    background:#ffe5d6;
+}
+
+.back-btn{
+    margin-bottom:20px;
+}
+
+.back-btn button{
+    background:#ff0822;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    border-radius:5px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+.back-btn button:hover{
+    background:#d9001f;
+}
+
+.message{
+    text-align:center;
+    color:#ff0822;
+    font-size:18px;
+    margin:20px;
+}
+
+.footer{
+    text-align:center;
+    margin:20px;
+    color:#555;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+🍽 Tamil Nadu Restaurant Menu
+</div>
+
+<div class="container">
+
+<div class="back-btn">
+<button onclick="window.location.href='customer dashboard.html'">
+⬅ Back to Dashboard
+</button>
+</div>
+
+<h2>Available Food Menu</h2>
+
+<div id="message" class="message">
+Loading menu...
+</div>
+
+<table id="menuTable" style="display:none;">
+
+<tr>
+<th>ID</th>
+<th>Food Name</th>
+<th>Category</th>
+<th>Price (₹)</th>
+<th>Status</th>
+</tr>
+
+<tbody id="menuBody"></tbody>
+
+</table>
+
+</div>
+
+<div class="footer">
+© 2026 Restaurant Menu Management System | Customer Menu
+</div>
+
+
+<script>
+
+fetch("php/get_menu.php", {
+    method: "GET",
+    credentials: "include"
+})
+.then(response => {
+
+    console.log("HTTP Status:", response.status);
+
+    if (!response.ok) {
+        throw new Error("PHP file not found or server error");
+    }
+
+    return response.text();
+})
+.then(text => {
+
+    console.log("Server Response:", text);
+
+    let data;
+
+    try {
+        data = JSON.parse(text);
+    } catch (error) {
+        throw new Error("get_menu.php did not return JSON");
+    }
+
+    if (data.success) {
+
+        const menuBody = document.getElementById("menuBody");
+
+        menuBody.innerHTML = "";
+
+        data.menu.forEach(item => {
+
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+                <td>${item.id}</td>
+                <td>${item.food_name}</td>
+                <td>${item.category}</td>
+                <td>₹${item.price}</td>
+                <td>${item.status}</td>
+            `;
+
+            menuBody.appendChild(row);
+
+        });
+
+        document.getElementById("message").style.display = "none";
+        document.getElementById("menuTable").style.display = "table";
+
+    } else {
+
+        document.getElementById("message").textContent =
+            data.message || "Unable to load menu.";
+
+    }
+
+})
+.catch(error => {
+
+    console.error("ERROR:", error);
+
+    document.getElementById("message").textContent =
+        "Unable to load menu. Check get_menu.php";
+
+});
+
+</script>
+
+</body>
+
+</html>

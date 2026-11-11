@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Order Management</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background:#f4f4f4;
+}
+
+.header{
+    background:#fa0822;
+    color:white;
+    text-align:center;
+    padding:20px;
+    font-size:30px;
+    font-weight:bold;
+}
+
+.container{
+    width:90%;
+    margin:30px auto;
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+h2{
+    text-align:center;
+    color:#fa0822;
+}
+
+table{
+    width:100%;
+    margin-top:30px;
+    border-collapse:collapse;
+}
+
+table th{
+    background:#fa0822;
+    color:white;
+    padding:12px;
+}
+
+table td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+}
+
+table tr:nth-child(even){
+    background:#f9f9f9;
+}
+
+table tr:hover{
+    background:#ffe0d1;
+}
+
+.back-btn{
+    margin-bottom:20px;
+}
+
+.back-btn a{
+    text-decoration:none;
+    background:#fa0822;
+    color:white;
+    padding:10px 20px;
+    border-radius:5px;
+}
+
+.back-btn a:hover{
+    background:#fa0808;
+}
+
+.message{
+    text-align:center;
+    padding:25px;
+    font-size:20px;
+    color:#777;
+}
+
+.footer{
+    text-align:center;
+    margin:20px;
+    color:#666;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+    Order Management
+</div>
+
+<div class="container">
+
+    <div class="back-btn">
+        <a href="dashboard.html">⬅ Back to Dashboard</a>
+    </div>
+
+    <h2>Today's Orders</h2>
+
+    <table>
+
+        <thead>
+
+            <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Food Item</th>
+                <th>Qty</th>
+                <th>Total (₹)</th>
+                <th>Status</th>
+            </tr>
+
+        </thead>
+
+        <tbody id="ordersTable">
+
+            <tr>
+                <td colspan="6" class="message">
+                    Loading orders...
+                </td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<div class="footer">
+    © 2026 Restaurant Menu Management System
+</div>
+
+
+<script>
+
+function loadOrders(){
+
+    fetch("php/get_orders.php")
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        const table = document.getElementById("ordersTable");
+
+        table.innerHTML = "";
+
+        if(data.length === 0){
+
+            table.innerHTML = `
+                <tr>
+                    <td colspan="6" class="message">
+                        No orders have been placed yet.
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+        data.forEach(order => {
+
+            table.innerHTML += `
+                <tr>
+
+                    <td>${order.order_id}</td>
+
+                    <td>${order.customer_name}</td>
+
+                    <td>${order.item}</td>
+
+                    <td>${order.quantity}</td>
+
+                    <td>₹${order.total}</td>
+
+                    <td>${order.status}</td>
+
+                </tr>
+            `;
+
+        });
+
+    })
+
+    .catch(error => {
+
+        console.error(error);
+
+        document.getElementById("ordersTable").innerHTML = `
+            <tr>
+                <td colspan="6" class="message">
+                    Unable to load orders.
+                </td>
+            </tr>
+        `;
+
+    });
+
+}
+
+
+// Load orders when page opens
+loadOrders();
+
+
+// Automatically refresh every 5 seconds
+setInterval(loadOrders, 5000);
+
+</script>
+
+</body>
+
+</html>

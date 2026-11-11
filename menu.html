@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Menu Management</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f4f4f4;
+}
+
+/* HEADER */
+
+.header{
+    background:#ff0822;
+    color:white;
+    text-align:center;
+    padding:20px;
+    font-size:32px;
+    font-weight:bold;
+}
+
+/* CONTAINER */
+
+.container{
+    width:95%;
+    margin:30px auto;
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* BACK BUTTON */
+
+.back-btn{
+    margin-bottom:20px;
+}
+
+.back-btn button{
+    background:#ff0822;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    border-radius:5px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.back-btn button:hover{
+    background:#d9001f;
+}
+
+/* HEADING */
+
+h2{
+    text-align:center;
+    color:#ff0822;
+    margin-bottom:20px;
+}
+
+/* TABLE */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+table th{
+    background:#ff0822;
+    color:white;
+    padding:12px;
+}
+
+table td{
+    border:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+}
+
+/* INPUT */
+
+table input,
+table select{
+    width:100%;
+    padding:8px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    font-size:15px;
+}
+
+/* BUTTON */
+
+.edit-btn{
+    background:#ff0822;
+    color:white;
+    border:none;
+    padding:9px 15px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.edit-btn:hover{
+    background:#d9001f;
+}
+
+/* STATUS */
+
+.available{
+    color:green;
+    font-weight:bold;
+}
+
+.unavailable{
+    color:red;
+    font-weight:bold;
+}
+
+/* LOADING */
+
+#loading{
+    text-align:center;
+    padding:20px;
+    font-size:18px;
+}
+
+/* ERROR */
+
+#error{
+    display:none;
+    text-align:center;
+    color:red;
+    padding:20px;
+}
+
+/* FOOTER */
+
+.footer{
+    text-align:center;
+    margin:25px;
+    color:#555;
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+    .container{
+        width:98%;
+        padding:15px;
+        overflow-x:auto;
+    }
+
+    table{
+        min-width:900px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<div class="header">
+
+🍽 Tamil Nadu Restaurant Menu Management
+
+</div>
+
+
+<div class="container">
+
+<!-- BACK BUTTON -->
+
+<div class="back-btn">
+
+<button onclick="goBack()">
+
+⬅ Back to Admin Dashboard
+
+</button>
+
+</div>
+
+
+<h2>
+
+🍽 Menu Management
+
+</h2>
+
+
+<div id="loading">
+
+Loading menu...
+
+</div>
+
+
+<div id="error">
+
+Unable to load menu.
+
+</div>
+
+
+<!-- MENU TABLE -->
+
+<table id="menuTable" style="display:none;">
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+
+<th>Food Name</th>
+
+<th>Category</th>
+
+<th>Price (₹)</th>
+
+<th>Status</th>
+
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="menuBody">
+
+</tbody>
+
+</table>
+
+</div>
+
+
+<div class="footer">
+
+© 2026 Restaurant Menu Management System | Admin Menu
+
+</div>
+
+
+<script>
+
+
+function loadMenu(){
+
+    fetch("php/get_menu.php")
+
+    .then(response => {
+
+        if(!response.ok){
+
+            throw new Error("Server error");
+
+        }
+
+        return response.json();
+
+    })
+
+    .then(data => {
+
+        document.getElementById("loading").style.display = "none";
+
+        if(data.success && data.menu.length > 0){
+
+            let table = "";
+
+            data.menu.forEach(item => {
+
+                let statusClass =
+                    item.status === "Available"
+                    ? "available"
+                    : "unavailable";
+
+                table += `
+
+                <tr>
+
+                    <td>
+                        ${item.id}
+                    </td>
+
+                    <td>
+
+                        <input
+                            type="text"
+                            id="name${item.id}"
+                            value="${item.food_name}"
+                        >
+
+                    </td>
+
+                    <td>
+
+                        <input
+                            type="text"
+                            id="category${item.id}"
+                            value="${item.category}"
+                        >
+
+                    </td>
+
+                    <td>
+
+                        <input
+                            type="number"
+                            id="price${item.id}"
+                            value="${item.price}"
+                        >
+
+                    </td>
+
+                    <td>
+
+                        <select
+                            id="status${item.id}"
+                            class="${statusClass}"
+                        >
+
+                            <option
+                                value="Available"
+                                ${item.status === "Available"
+                                ? "selected" : ""}
+                            >
+                                Available
+                            </option>
+
+                            <option
+                                value="Unavailable"
+                                ${item.status === "Unavailable"
+                                ? "selected" : ""}
+                            >
+                                Unavailable
+                            </option>
+
+                        </select>
+
+                    </td>
+
+                    <td>
+
+                        <button
+                            class="edit-btn"
+                            onclick="updateMenu(${item.id})"
+                        >
+                            Edit / Save
+                        </button>
+
+                    </td>
+
+                </tr>
+
+                `;
+
+            });
+
+            document.getElementById("menuBody").innerHTML = table;
+
+            document.getElementById("menuTable").style.display = "table";
+
+        }
+        else{
+
+            document.getElementById("error").textContent =
+                "No menu items found.";
+
+            document.getElementById("error").style.display = "block";
+
+        }
+
+    })
+
+    .catch(error => {
+
+        console.error(error);
+
+        document.getElementById("loading").style.display = "none";
+
+        document.getElementById("error").textContent =
+            "Unable to load menu. Check PHP and database connection.";
+
+        document.getElementById("error").style.display = "block";
+
+    });
+
+}
+
+
+function updateMenu(id){
+
+    let formData = new FormData();
+
+    formData.append(
+        "id",
+        id
+    );
+
+    formData.append(
+        "food_name",
+        document.getElementById("name" + id).value
+    );
+
+    formData.append(
+        "category",
+        document.getElementById("category" + id).value
+    );
+
+    formData.append(
+        "price",
+        document.getElementById("price" + id).value
+    );
+
+    formData.append(
+        "status",
+        document.getElementById("status" + id).value
+    );
+
+
+    fetch("php/menu_update.php", {
+
+        method:"POST",
+
+        body:formData
+
+    })
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        if(data.success){
+
+            alert("Menu updated successfully!");
+
+            loadMenu();
+
+        }
+        else{
+
+            alert(
+                data.message ||
+                "Update failed"
+            );
+
+        }
+
+    })
+
+    .catch(error => {
+
+        console.error(error);
+
+        alert("Unable to update menu.");
+
+    });
+
+}
+
+
+function goBack(){
+
+    window.location.href = "dashboard.html";
+
+}
+
+
+loadMenu();
+
+</script>
+
+</body>
+
+</html>

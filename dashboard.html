@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Restaurant Dashboard</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+html,body{
+    background:#f4f6f9;
+    overflow-x:hidden;
+}
+
+.plate-overlay{
+    position:fixed;
+    inset:0;
+    background:#fa0822;
+    z-index:9999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    animation:irisWipe .9s ease-in-out .9s forwards;
+}
+
+.plate{
+    width:70px;
+    height:70px;
+    border:6px solid rgba(255,255,255,.35);
+    border-top-color:#fff;
+    border-radius:50%;
+    animation:spinPlate .7s linear infinite;
+}
+
+@keyframes spinPlate{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+@keyframes irisWipe{
+    to{
+        clip-path:circle(0% at 50% 0%);
+        opacity:0;
+        visibility:hidden;
+    }
+}
+
+
+.header{
+    background:#fa0822;
+    color:white;
+    padding:20px;
+    text-align:center;
+    font-size:30px;
+    font-weight:bold;
+    transform-origin:top center;
+    animation:curtainRise .7s cubic-bezier(.2,.9,.25,1.15) 1.1s both;
+}
+
+@keyframes curtainRise{
+    from{
+        transform:scaleY(0);
+    }
+
+    60%{
+        transform:scaleY(1.06);
+    }
+
+    to{
+        transform:scaleY(1);
+    }
+}
+
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:80px;
+    width:220px;
+    height:calc(100% - 80px);
+    background:#000000;
+    padding-top:10px;
+    transform-origin:left center;
+    animation:doorSwing .6s cubic-bezier(.2,.8,.3,1) 1.25s both;
+}
+
+@keyframes doorSwing{
+    from{
+        transform:perspective(600px) rotateY(-85deg);
+        opacity:0;
+    }
+
+    to{
+        transform:perspective(600px) rotateY(0deg);
+        opacity:1;
+    }
+}
+
+.sidebar a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:white;
+    text-decoration:none;
+    padding:12px 15px;
+    font-size:17px;
+    line-height:1.2;
+    min-height:60px;
+    position:relative;
+    transition:background .25s ease,
+                padding-left .25s ease;
+}
+
+.sidebar a .icon{
+    width:32px;
+    min-width:32px;
+    text-align:center;
+    font-size:22px;
+}
+
+.sidebar a::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    bottom:0;
+    width:4px;
+    background:#fff;
+    transform:scaleY(0);
+    transition:transform .25s ease;
+}
+
+.sidebar a:hover{
+    background:#fa0822;
+    padding-left:25px;
+}
+
+.sidebar a:hover::before{
+    transform:scaleY(1);
+}
+
+.sidebar a.active{
+    background:#fa0822;
+}
+
+
+.main{
+    margin-left:240px;
+    padding:30px;
+}
+
+.main h1{
+    opacity:0;
+    animation:fadeIn .5s ease-out 1.5s forwards;
+}
+
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+    text-align:center;
+
+    transition:transform .3s ease,
+                box-shadow .3s ease;
+
+    opacity:0;
+    transform-origin:center bottom;
+
+    animation:servePlate .55s cubic-bezier(.34,1.3,.4,1) both;
+}
+
+.card:nth-child(1){
+    animation-delay:1.55s;
+}
+
+.card:nth-child(2){
+    animation-delay:1.68s;
+}
+
+.card:nth-child(3){
+    animation-delay:1.81s;
+}
+
+.card:nth-child(4){
+    animation-delay:1.94s;
+}
+
+.card:nth-child(5){
+    animation-delay:2.07s;
+}
+
+.card:nth-child(6){
+    animation-delay:2.20s;
+}
+
+@keyframes servePlate{
+
+    0%{
+        opacity:0;
+        transform:translateY(-16px)
+                   rotateX(35deg)
+                   scale(.92);
+    }
+
+    70%{
+        opacity:1;
+        transform:translateY(2px)
+                   rotateX(0deg)
+                   scale(1.015);
+    }
+
+    100%{
+        opacity:1;
+        transform:translateY(0)
+                   rotateX(0deg)
+                   scale(1);
+    }
+}
+
+@keyframes fadeIn{
+
+    from{
+        opacity:0;
+    }
+
+    to{
+        opacity:1;
+    }
+}
+
+.card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 10px 20px rgba(0,0,0,0.25);
+}
+
+.card h2{
+    color:#fa0822;
+    margin-bottom:10px;
+    transition:color .25s ease;
+}
+
+.card:hover h2{
+    color:#d9071d;
+}
+
+.card p{
+    font-size:18px;
+    margin-bottom:15px;
+}
+
+
+button{
+    padding:10px 20px;
+    background:#fa0822;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    position:relative;
+    overflow:hidden;
+
+    transition:background .2s ease,
+                transform .15s ease;
+}
+
+button:hover{
+    background:#d9071d;
+    transform:translateY(-2px);
+}
+
+button:active{
+    transform:translateY(0) scale(.97);
+}
+
+button::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:rgba(255,255,255,.5);
+    border-radius:50%;
+    transform:scale(0);
+    opacity:0;
+}
+
+button:active::after{
+    animation:stamp .45s ease-out;
+}
+
+@keyframes stamp{
+
+    from{
+        transform:scale(0);
+        opacity:.6;
+    }
+
+    to{
+        transform:scale(2.5);
+        opacity:0;
+    }
+}
+
+
+.footer{
+    text-align:center;
+    margin-top:40px;
+    color:#666;
+    opacity:0;
+    animation:fadeIn .6s ease-out 2.38s forwards;
+}
+
+
+@media(max-width:768px){
+
+    .header{
+        font-size:22px;
+        padding:18px 10px;
+    }
+
+    .sidebar{
+        width:190px;
+    }
+
+    .sidebar a{
+        font-size:15px;
+    }
+
+    .main{
+        margin-left:200px;
+        padding:20px;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .sidebar{
+        position:relative;
+        top:0;
+        width:100%;
+        height:auto;
+    }
+
+    .main{
+        margin-left:0;
+        padding:20px;
+    }
+
+}
+
+
+@media(prefers-reduced-motion:reduce){
+
+    .plate-overlay{
+        display:none;
+    }
+
+    *{
+        animation:none !important;
+        transition:none !important;
+        opacity:1 !important;
+        transform:none !important;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<div class="header">
+    🍽 Tamil Nadu Restaurant Menu Management Dashboard
+</div>
+
+
+<div class="sidebar">
+
+    <a href="menu.html?user=admin">
+
+        <span class="icon">🍽</span>
+
+        <span>
+            Menu<br>
+            Management
+        </span>
+
+    </a>
+
+
+    <a href="orders.html">
+
+        <span class="icon">🛒</span>
+
+        <span>
+            Order<br>
+            Management
+        </span>
+
+    </a>
+
+
+    <a href="customers.html">
+
+        <span class="icon">👥</span>
+
+        <span>
+            Customer<br>
+            Management
+        </span>
+
+    </a>
+
+
+    <a href="billing.html">
+
+        <span class="icon">💳</span>
+
+        <span>
+            Billing &<br>
+            Payment
+        </span>
+
+    </a>
+
+
+    <a href="reports.html">
+
+        <span class="icon">📊</span>
+
+        <span>
+            Reports
+        </span>
+
+    </a>
+
+
+    <a href="reviews.html">
+
+        <span class="icon">⭐</span>
+
+        <span>
+            Customer<br>
+            Reviews
+        </span>
+
+    </a>
+
+
+    <a href="php/logout.php">
+
+        <span class="icon">🚪</span>
+
+        <span>
+            Logout
+        </span>
+
+    </a>
+
+</div>
+
+
+
+<div class="main">
+
+    <h1>Welcome Admin</h1>
+
+    <br>
+
+
+    <div class="cards">
+
+
+
+        <div class="card">
+
+            <h2 id="totalMenu">20</h2>
+
+            <p>
+                Total Menu Items
+            </p>
+
+            <button onclick="window.location.href='menu.html?user=admin'">
+                Open Module
+            </button>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <h2 id="todayOrders">0</h2>
+
+            <p>
+                Today's Orders
+            </p>
+
+            <button onclick="window.location.href='orders.html'">
+                Open Module
+            </button>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <h2 id="totalCustomers">30</h2>
+
+            <p>
+                Customers Today
+            </p>
+
+            <button onclick="window.location.href='customers.html'">
+                Open Module
+            </button>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <h2 id="totalRevenue">₹0</h2>
+
+            <p>
+                Billing & Payment
+            </p>
+
+            <button onclick="window.location.href='billing.html'">
+                Open Module
+            </button>
+
+        </div>
+
+
+
+        <div class="card">
+
+            <h2>Daily</h2>
+
+            <p>
+                Sales Reports
+            </p>
+
+            <button onclick="window.location.href='reports.html'">
+                Open Module
+            </button>
+
+            
+
+        </div>
+
+
+        <div class="card">
+
+            <h2 id="totalReviews">4</h2>
+
+            <p>
+                Customer Reviews
+            </p>
+
+            <button onclick="window.location.href='reviews.html'">
+                Open Module
+            </button>
+
+        </div>
+        
+
+
+    </div>
+
+    
+
+    <div class="footer">
+
+        <br>
+        <br>
+
+        <p>
+            © 2026 Restaurant Menu Management System |
+            SQL PBL Project
+        </p>
+
+    </div>
+
+</div>
+
+<script>
+function loadDashboardStats() {
+    fetch("php/get_dashboard_stats.php")
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                if (document.getElementById("totalMenu")) {
+                    document.getElementById("totalMenu").textContent = data.total_menu;
+                }
+                if (document.getElementById("todayOrders")) {
+                    document.getElementById("todayOrders").textContent = data.today_orders;
+                }
+                if (document.getElementById("totalCustomers")) {
+                    document.getElementById("totalCustomers").textContent = data.total_customers;
+                }
+                if (document.getElementById("totalRevenue")) {
+                    document.getElementById("totalRevenue").textContent = "₹" + Number(data.total_revenue).toLocaleString();
+                }
+                if (document.getElementById("totalReviews")) {
+                    document.getElementById("totalReviews").textContent = data.total_reviews ?? 0;
+                }
+            }
+        })
+        .catch(err => console.error("Error loading dashboard stats:", err));
+}
+
+loadDashboardStats();
+setInterval(loadDashboardStats, 10000);
+
+function logout(){
+
+    if(
+        confirm(
+            "Are you sure you want to logout?"
+        )
+    ){
+
+        window.location.href =
+            "php/logout.php";
+
+    }
+
+}
+</script>
+
+</body>
+
+</html>
